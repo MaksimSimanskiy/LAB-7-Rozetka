@@ -32,8 +32,9 @@ while True:
                 end_by = str(end).encode(encoding="utf-8")
                 print("Данные отправлены клиенту")
                 connection.sendall(end_by)
-            else:
-                print("Ожидание команды", client_address)
-                break
+            elif decode_data == "exit":
+                print("Завершение работы сервера")
+                connection.close()
+                sys.exit()
     finally:
         connection.close()

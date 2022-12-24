@@ -2,11 +2,13 @@
 # -*- coding: utf-8 -*-
 
 import socket
+import sys
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server_address = ("localhost", 10000)
 print("connecting to {} port {}".format(*server_address))
 conn = sock.connect(server_address)
+
 
 def ask():
     a = input("Введите команду - ")
@@ -14,12 +16,13 @@ def ask():
     b = bytes(a, "utf-8")
     sock.sendall(b)
     data = sock.recv(1024)
+    if a == "exit":
+        sys.exit()
     print("Получено {!r}".format(data.decode("utf-8")))
-    return b
+    return a
 
-amount_received = 0
-amount_expected = len(ask())
-while amount_received < amount_expected:
+
+while True:
     ask()
-else:
-    sock.close()
+
+
